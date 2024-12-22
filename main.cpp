@@ -15,7 +15,6 @@ void gotoRowCol(int rpos, int cpos)
     scrn.Y = rpos;
     SetConsoleCursorPosition(hOuput, scrn);
 }
-
 void sleep(int m)
 {
     for (int j = 0; j < m * 21000; j++)
@@ -112,13 +111,13 @@ void board(int rp, int cp, char border_ch)
     vertiLines(rp, cp, border_ch);
     numbersInsideBox(rp + 3, cp + 95);
 }
-void snakesRowColChangeP2(int &row, int &col, char &player)
+void snakesRowColChange(int &row, int &col, int startCol, char &player)
 {
     if ((row > 25 && row < 30) && (col > 80 && col < 90))
     {
         removePos(row, col);
         row = 47;
-        col = 107;
+        col = startCol + 70;
         gotoRowCol(row, col);
         cout << player;
     }
@@ -126,7 +125,7 @@ void snakesRowColChangeP2(int &row, int &col, char &player)
     {
         removePos(row, col);
         row = 47;
-        col = 137;
+        col = startCol + 100;
         gotoRowCol(row, col);
         cout << player;
     }
@@ -134,7 +133,7 @@ void snakesRowColChangeP2(int &row, int &col, char &player)
     {
         removePos(row, col);
         row = 42;
-        col = 137;
+        col = startCol + 100;
         gotoRowCol(row, col);
         cout << player;
     }
@@ -142,7 +141,7 @@ void snakesRowColChangeP2(int &row, int &col, char &player)
     {
         removePos(row, col);
         row = 22;
-        col = 77;
+        col = startCol + 40;
         gotoRowCol(row, col);
         cout << player;
     }
@@ -150,18 +149,18 @@ void snakesRowColChangeP2(int &row, int &col, char &player)
     {
         removePos(row, col);
         row = 47;
-        col = 107;
+        col = startCol + 70;
         gotoRowCol(row, col);
         cout << player;
     }
 }
-void laddersRowColChangeP1(int &row, int &col, char &player)
+void laddersRowColChange(int &row, int &col, int startCol, char &player)
 {
     if ((row > 45 && row < 50) && (col > 80 && col < 90))
     {
         removePos(row, col);
         row = 22;
-        col = 117;
+        col = startCol + 80;
         gotoRowCol(row, col);
         cout << player;
     }
@@ -169,7 +168,7 @@ void laddersRowColChangeP1(int &row, int &col, char &player)
     {
         removePos(row, col);
         row = 27;
-        col = 127;
+        col = startCol + 90;
         gotoRowCol(row, col);
         cout << player;
     }
@@ -177,7 +176,7 @@ void laddersRowColChangeP1(int &row, int &col, char &player)
     {
         removePos(row, col);
         row = 22;
-        col = 137;
+        col = startCol + 100;
         gotoRowCol(row, col);
         cout << player;
     }
@@ -185,85 +184,7 @@ void laddersRowColChangeP1(int &row, int &col, char &player)
     {
         removePos(row, col);
         row = 7;
-        col = 137;
-        gotoRowCol(row, col);
-        cout << player;
-    }
-}
-void snakesRowColChangeP1(int &row, int &col, char &player)
-{
-    if ((row > 25 && row < 30) && (col > 80 && col < 90))
-    {
-        removePos(row, col);
-        row = 47;
-        col = 107;
-        gotoRowCol(row, col);
-        cout << player;
-    }
-    if ((row > 20 && row < 25) && (col > 40 && col < 50))
-    {
-        removePos(row, col);
-        row = 47;
-        col = 137;
-        gotoRowCol(row, col);
-        cout << player;
-    }
-    if ((row > 30 && row < 35) && (col > 110 && col < 120))
-    {
-        removePos(row, col);
-        row = 42;
-        col = 137;
-        gotoRowCol(row, col);
-        cout << player;
-    }
-    if ((row > 15 && row < 20) && (col > 80 && col < 90))
-    {
-        removePos(row, col);
-        row = 22;
-        col = 77;
-        gotoRowCol(row, col);
-        cout << player;
-    }
-    if ((row == 2) && (col > 120 && col < 130))
-    {
-        removePos(row, col);
-        row = 47;
-        col = 107;
-        gotoRowCol(row, col);
-        cout << player;
-    }
-}
-void laddersRowColChangeP2(int &row, int &col, char &player)
-{
-    if ((row > 45 && row < 50) && (col > 80 && col < 90))
-    {
-        removePos(row, col);
-        row = 22;
-        col = 113;
-        gotoRowCol(row, col);
-        cout << player;
-    }
-    if ((row > 40 && row < 45) && (col > 70 && col < 80))
-    {
-        removePos(row, col);
-        row = 27;
-        col = 123;
-        gotoRowCol(row, col);
-        cout << player;
-    }
-    if ((row > 25 && row < 30) && (col > 50 && col < 60))
-    {
-        removePos(row, col);
-        row = 22;
-        col = 133;
-        gotoRowCol(row, col);
-        cout << player;
-    }
-    if ((row > 20 && row < 25) && (col > 60 && col < 70))
-    {
-        removePos(row, col);
-        row = 7;
-        col = 133;
+        col = startCol + 100;
         gotoRowCol(row, col);
         cout << player;
     }
@@ -273,9 +194,12 @@ void rowColChange(int &row, int &col, int &step, int endCol, char player)
     int nCol = col + step * 10;
     if (nCol > endCol)
     {
-        col = nCol - 100;
-
-        row -= 5;
+        while (nCol > endCol)
+        {
+            col = nCol - 100;
+            nCol = col;
+            row -= 5;
+        }
 
         gotoRowCol(row, col);
         cout << player;
@@ -287,100 +211,129 @@ void rowColChange(int &row, int &col, int &step, int endCol, char player)
         cout << player;
     }
 }
-void after94p1(int &row, int &col, int &step, int endCol, char player)
+void After84(int &row, int &col, int &step, int endCol, int startCol, char player)
 {
-    if (col >= 77 && step > 5)
+    if (row == 7)
     {
-        step = 0;
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
-    }
-    else if (col >= 87 && step > 5)
-    {
-        step = 0;
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
-    }
-    else if (col >= 97 && step > 4)
-    {
-        step = 0;
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
+        // 84
+        if (col >= startCol + 40 && step > 16)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        } // 85
+        else if (col >= startCol + 50 && step > 15)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        } // 86
+        else if (col >= startCol + 60 && step > 14)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        } // 87
+        else if (col >= startCol + 70 && step > 13)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        } // 88
+        else if (col >= startCol + 80 && step > 12)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        } // 89
+        else if (col >= startCol + 90 && step > 11)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        } // 90
+        else if (col >= startCol + 100 && step > 10)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        }
+        else
+        {
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        }
     }
 
-    else if (col >= 107 && step > 3)
+    if (row == 2)
     {
-        step = 0;
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
-    }
-    else if (col >= 117 && step > 2)
-    {
-        step = 0;
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
-    }
-    else if (col >= 127 && step > 1)
-    {
-        step = 0;
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
-    }
+        // 91
+        if (col >= startCol + 10 && step > 9)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        } // 92
+        else if (col >= startCol + 20 && step > 8)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        } // 93
+        else if (col >= startCol + 30 && step > 7)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        }
+        // 94
+        else if (col >= startCol + 40 && step > 5)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        } // 95
+        else if (col >= startCol + 50 && step > 5)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        } // 96
+        else if (col >= startCol + 60 && step > 4)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        }
+        // 97
+        else if (col >= startCol + 70 && step > 3)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        } // 98
+        else if (col >= startCol + 80 && step > 2)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        } // 99
+        else if (col >= startCol + 90 && step > 1)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        }
 
-    else
-    {
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
+        else
+        {
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        }
     }
 }
-void after94p2(int &row, int &col, int &step, int endCol, char player)
-{
-    if (col >= 73 && step > 5)
-    {
-        step = 0;
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
-    }
-    else if (col >= 83 && step > 5)
-    {
-        step = 0;
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
-    }
-    else if (col >= 93 && step > 4)
-    {
-        step = 0;
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
-    }
 
-    else if (col >= 103 && step > 3)
-    {
-        step = 0;
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
-    }
-    else if (col >= 113 && step > 2)
-    {
-        step = 0;
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
-    }
-    else if (col >= 123 && step > 1)
-    {
-        step = 0;
-
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
-    }
-
-    else
-    {
-        removePos(row, col);
-        rowColChange(row, col, step, endCol, player);
-    }
-}
-void updatePosition(char player1, char player2, int &p1PosRow, int &p1PosCol, int &p2PosRow, int &p2PosCol, bool &turnStartP1, bool &turnStartP2, int endColP1, int endColP2)
+void updatePosition(char player1, char player2, int &p1PosRow, int &p1PosCol, int &p2PosRow, int &p2PosCol, bool &turnStartP1, bool &turnStartP2, int endColP1, int endColP2, int startColP1, int startColP2)
 {
 
     gotoRowCol(p1PosRow, p1PosCol);
@@ -425,18 +378,17 @@ void updatePosition(char player1, char player2, int &p1PosRow, int &p1PosCol, in
     if (turnStartP1 == 1)
     {
 
-        if (p1PosRow == 2)
+        if (p1PosRow == 2 || p1PosRow == 7)
         {
-            // removePos(p1PosRow,p1PosCol);
-            after94p1(p1PosRow, p1PosCol, totalSteps, endColP1, player1);
+            After84(p1PosRow, p1PosCol, totalSteps, endColP1, startColP1, player1);
         }
         else
         {
             removePos(p1PosRow, p1PosCol);
             rowColChange(p1PosRow, p1PosCol, totalSteps, endColP1, player1);
         }
-        snakesRowColChangeP1(p1PosRow, p1PosCol, player1);
-        laddersRowColChangeP1(p1PosRow, p1PosCol, player1);
+        snakesRowColChange(p1PosRow, p1PosCol, startColP1, player1);
+        laddersRowColChange(p1PosRow, p1PosCol, startColP1, player1);
     }
 
     counter = 0;
@@ -478,16 +430,15 @@ void updatePosition(char player1, char player2, int &p1PosRow, int &p1PosCol, in
     {
         if (p2PosRow == 2)
         {
-            // removePos(p2PosRow,p2PosCol);
-            after94p2(p2PosRow, p2PosCol, totalSteps, endColP2, player2);
+            After84(p2PosRow, p2PosCol, totalSteps, endColP2, startColP2, player2);
         }
         else
         {
             removePos(p2PosRow, p2PosCol);
             rowColChange(p2PosRow, p2PosCol, totalSteps, endColP2, player2);
         }
-        snakesRowColChangeP2(p2PosRow, p2PosCol, player2);
-        laddersRowColChangeP2(p2PosRow, p2PosCol, player2);
+        snakesRowColChange(p2PosRow, p2PosCol, startColP2, player2);
+        laddersRowColChange(p2PosRow, p2PosCol, startColP2, player2);
     }
 }
 
@@ -542,6 +493,7 @@ int main()
     char border_ch = 219;
     int starting_row = 0, starting_col = 40;
     int p1PosRow = starting_row + 47, p1PosCol = starting_col - 3, p2PosRow = starting_row + 47, p2PosCol = starting_col - 7;
+    int startColP1 = starting_col - 3, startColP2 = starting_col - 7;
     int endColP1 = p1PosCol + 100, endColP2 = p2PosCol + 100;
     bool turnStartP1 = 0, turnStartP2 = 0;
 
@@ -550,18 +502,51 @@ int main()
 
     while (true)
     {
-        updatePosition(player1, player2, p1PosRow, p1PosCol, p2PosRow, p2PosCol, turnStartP1, turnStartP2, endColP1, endColP2);
+        updatePosition(player1, player2, p1PosRow, p1PosCol, p2PosRow, p2PosCol, turnStartP1, turnStartP2, endColP1, endColP2, startColP1, startColP2);
 
         if (p1PosCol == endColP1 && p1PosRow == 2)
         {
-            gotoRowCol(5, 5);
+            system("CLS");
+            gotoRowCol(15, 50);
             cout << player1 << " is the winner.";
+
+            cout << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl;
             break;
         }
         if (p2PosCol == endColP2 && p2PosRow == 2)
         {
-            gotoRowCol(5, 5);
+            system("CLS");
+            gotoRowCol(15, 50);
             cout << player2 << " is the winner.";
+            cout << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl
+                 << endl;
             break;
         }
     }
