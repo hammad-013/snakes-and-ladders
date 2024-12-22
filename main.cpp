@@ -246,44 +246,65 @@ void After84(int &row, int &col, int &step, int endCol, int startCol, char playe
 {
     if (row == 7)
     {
+        // 81
+        if ((col >= startCol + 10) && step > 19)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        }
+        // 82
+        if ((col >= startCol + 20) && step > 18)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        }
+        // 83
+        if ((col >= startCol + 30) && step > 17)
+        {
+            step = 0;
+            removePos(row, col);
+            rowColChange(row, col, step, endCol, player);
+        }
         // 84
-        if (col >= startCol + 40 && step > 16)
+        if ((col >= startCol + 40) && step > 16)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         } // 85
-        else if (col >= startCol + 50 && step > 15)
+        else if ((col >= startCol + 50) && step > 15)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         } // 86
-        else if (col >= startCol + 60 && step > 14)
+        else if ((col >= startCol + 60) && step > 14)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         } // 87
-        else if (col >= startCol + 70 && step > 13)
+        else if ((col >= startCol + 70) && step > 13)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         } // 88
-        else if (col >= startCol + 80 && step > 12)
+        else if ((col >= startCol + 80) && step > 12)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         } // 89
-        else if (col >= startCol + 90 && step > 11)
+        else if ((col >= startCol + 90) && step > 11)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         } // 90
-        else if (col >= startCol + 100 && step > 10)
+        else if ((col >= startCol + 100) && step > 10)
         {
             step = 0;
             removePos(row, col);
@@ -296,60 +317,60 @@ void After84(int &row, int &col, int &step, int endCol, int startCol, char playe
         }
     }
 
-    if (row == 2)
+    else if (row == 2)
     {
         // 91
-        if (col >= startCol + 10 && step > 9)
+        if ((col >= startCol + 10) && step > 9)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         } // 92
-        else if (col >= startCol + 20 && step > 8)
+        else if ((col >= startCol + 20) && step > 8)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         } // 93
-        else if (col >= startCol + 30 && step > 7)
+        else if ((col >= startCol + 30) && step > 7)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         }
         // 94
-        else if (col >= startCol + 40 && step > 5)
+        else if ((col >= startCol + 40) && step > 5)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         } // 95
-        else if (col >= startCol + 50 && step > 5)
+        else if ((col >= startCol + 50) && step > 5)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         } // 96
-        else if (col >= startCol + 60 && step > 4)
+        else if ((col >= startCol + 60) && step > 4)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         }
         // 97
-        else if (col >= startCol + 70 && step > 3)
+        else if ((col >= startCol + 70) && step > 3)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         } // 98
-        else if (col >= startCol + 80 && step > 2)
+        else if ((col >= startCol + 80) && step > 2)
         {
             step = 0;
             removePos(row, col);
             rowColChange(row, col, step, endCol, player);
         } // 99
-        else if (col >= startCol + 90 && step > 1)
+        else if ((col >= startCol + 90) && step > 1)
         {
             step = 0;
             removePos(row, col);
@@ -363,32 +384,16 @@ void After84(int &row, int &col, int &step, int endCol, int startCol, char playe
         }
     }
 }
-
-void updatePosition(char player1, char player2, int &p1PosRow, int &p1PosCol, int &p2PosRow, int &p2PosCol, bool &turnStartP1, bool &turnStartP2, int endColP1, int endColP2, int startColP1, int startColP2)
+int diceCalc(int &totalSteps, int &counter, int &steps, char player, int rowFDice, bool &turnStart)
 {
-
-    gotoRowCol(p1PosRow, p1PosCol);
-    cout << player1;
-    gotoRowCol(p2PosRow, p2PosCol);
-    cout << player2;
-    int steps = dice(0, 0, player1);
-
-    // if six roll dice again
-    int counter = 0;
-    int totalSteps = 0;
     totalSteps += steps;
+    // if six roll dice again
     if (totalSteps == 6)
     {
-        // not moving first six as it starts the turn
-        if (turnStartP1 == 0)
-        {
-            totalSteps -= 6;
-        }
-        turnStartP1 = 1;
         counter += 1;
-        while (counter <= 3)
+        while (counter < 3)
         {
-            steps = dice(0, 0, player1);
+            steps = dice(rowFDice, 0, player);
             totalSteps += steps;
             if (steps != 6)
             {
@@ -399,12 +404,42 @@ void updatePosition(char player1, char player2, int &p1PosRow, int &p1PosCol, in
                 counter += 1;
             }
         }
-        // if three consecutive 6s, skip the turn
-        if (counter == 3)
+        // not moving first six as it starts the turn
+        if (turnStart == 0)
         {
-            turnStartP1 = 0;
+            totalSteps -= 6;
+            turnStart = 1;
+
+            //, if three consecutive 6s, skip the turn
+            if (counter == 3)
+            {
+                turnStart = 0;
+            }
+        }
+        else
+        {
+
+            //, if three consecutive 6s, skip the turn
+            if (counter == 3)
+            {
+                totalSteps = 0;
+            }
         }
     }
+}
+void updatePosition(char player1, char player2, int &p1PosRow, int &p1PosCol, int &p2PosRow, int &p2PosCol, bool &turnStartP1, bool &turnStartP2, int endColP1, int endColP2, int startColP1, int startColP2)
+{
+
+    gotoRowCol(p1PosRow, p1PosCol);
+    cout << player1;
+    gotoRowCol(p2PosRow, p2PosCol);
+    cout << player2;
+    int steps = dice(0, 0, player1);
+
+    int counter = 0;
+    int totalSteps = 0;
+
+    diceCalc(totalSteps, counter, steps, player1, 0, turnStartP1);
 
     if (turnStartP1 == 1)
     {
@@ -426,40 +461,12 @@ void updatePosition(char player1, char player2, int &p1PosRow, int &p1PosCol, in
     steps = dice(10, 0, player2);
 
     totalSteps = 0;
-    totalSteps += steps;
-    // if six roll dice again
-    if (totalSteps == 6)
-    {
-        // not moving first six as it starts the turn
-        if (turnStartP2 == 0)
-        {
-            totalSteps -= 6;
-        }
-        turnStartP2 = 1;
-        counter += 1;
-        while (counter <= 3)
-        {
-            steps = dice(10, 0, player2);
-            totalSteps += steps;
-            if (steps != 6)
-            {
-                break;
-            }
-            else
-            {
-                counter += 1;
-            }
-        }
-        //, if three consecutive 6s, skip the turn
-        if (counter == 3)
-        {
-            turnStartP2 = 0;
-        }
-    }
+
+    diceCalc(totalSteps, counter, steps, player2, 10, turnStartP2);
 
     if (turnStartP2 == 1)
     {
-        if (p2PosRow == 2)
+        if (p2PosRow == 2 || p2PosRow == 7)
         {
             After84(p2PosRow, p2PosCol, totalSteps, endColP2, startColP2, player2);
         }
@@ -525,7 +532,7 @@ int main()
     int starting_row = 0, starting_col = 40;
     int p1PosRow = starting_row + 47, p1PosCol = starting_col - 3, p2PosRow = starting_row + 47, p2PosCol = starting_col - 7;
     int startColP1 = starting_col - 3, startColP2 = starting_col - 7;
-    int endColP1 = p1PosCol + 100, endColP2 = p2PosCol + 100;
+    int endColP1 = startColP1 + 100, endColP2 = p2PosCol + 100;
     bool turnStartP1 = 0, turnStartP2 = 0;
 
     board(starting_row, starting_col, border_ch);
@@ -534,12 +541,12 @@ int main()
     while (true)
     {
         updatePosition(player1, player2, p1PosRow, p1PosCol, p2PosRow, p2PosCol, turnStartP1, turnStartP2, endColP1, endColP2, startColP1, startColP2);
-
         if (p1PosCol == endColP1 && p1PosRow == 2)
         {
             system("CLS");
             gotoRowCol(15, 50);
             cout << player1 << " is the winner.";
+
             gotoRowCol(17, 50);
             cout << "Press Any Key To Play Again.";
 
@@ -548,8 +555,9 @@ int main()
             board(starting_row, starting_col, border_ch);
             snakesLaddersList(starting_row + 3, starting_col + 115, player1, player2);
             p1PosRow = starting_row + 47, p1PosCol = starting_col - 3, p2PosRow = starting_row + 47, p2PosCol = starting_col - 7;
+            turnStartP1 = 0, turnStartP2 = 0;
         }
-        if (p2PosCol == endColP2 && p2PosRow == 2)
+        else if (p2PosCol == endColP2 && p2PosRow == 2)
         {
             system("CLS");
             gotoRowCol(15, 50);
@@ -562,6 +570,7 @@ int main()
             board(starting_row, starting_col, border_ch);
             snakesLaddersList(starting_row + 3, starting_col + 115, player1, player2);
             p1PosRow = starting_row + 47, p1PosCol = starting_col - 3, p2PosRow = starting_row + 47, p2PosCol = starting_col - 7;
+            turnStartP1 = 0, turnStartP2 = 0;
         }
     }
     return 0;
