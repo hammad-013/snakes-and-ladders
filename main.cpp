@@ -42,7 +42,8 @@ void numbersInsideBox(int rp, int cp)
 void horiLines(int rp, int cp, char border_ch)
 {
     int stcol = cp;
-    for (int i = 1; i <= 11; i++)
+    rp += 5;
+    for (int i = 1; i <= 9; i++)
     {
         for (int j = 1; j <= 100; j++)
         {
@@ -64,7 +65,8 @@ void horiLines(int rp, int cp, char border_ch)
 void vertiLines(int rp, int cp, char border_ch)
 {
     int strow = rp;
-    for (int i = 1; i <= 11; i++)
+    cp += 10;
+    for (int i = 1; i <= 9; i++)
     {
         for (int j = 1; j <= 50; j++)
         {
@@ -95,7 +97,7 @@ int dice(int a, int b, char playerch)
     {
         gotoRowCol(a + 2, b);
         cout << i;
-        sleep(800);
+        sleep(500);
         i++;
     }
 
@@ -105,8 +107,37 @@ int dice(int a, int b, char playerch)
     cout << diceNum;
     return diceNum;
 }
+void border(int rp, int cp, char border_ch)
+{
+    for (int i = 1; i <= 100; i++)
+    {
+        gotoRowCol(rp, cp);
+        cout << border_ch;
+        cp += 1;
+    }
+    for (int i = 1; i <= 50; i++)
+    {
+        gotoRowCol(rp, cp);
+        cout << border_ch << border_ch;
+        rp += 1;
+    }
+    cp += 1;
+    for (int i = 1; i <= 101; i++)
+    {
+        gotoRowCol(rp, cp);
+        cout << border_ch;
+        cp -= 1;
+    }
+    for (int i = 1; i <= 50; i++)
+    {
+        gotoRowCol(rp, cp);
+        cout << border_ch << border_ch;
+        rp -= 1;
+    }
+}
 void board(int rp, int cp, char border_ch)
 {
+    border(rp, cp, border_ch);
     horiLines(rp, cp, border_ch);
     vertiLines(rp, cp, border_ch);
     numbersInsideBox(rp + 3, cp + 95);
@@ -509,45 +540,28 @@ int main()
             system("CLS");
             gotoRowCol(15, 50);
             cout << player1 << " is the winner.";
+            gotoRowCol(17, 50);
+            cout << "Press Any Key To Play Again.";
 
-            cout << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl;
-            break;
+            getch();
+            system("CLS");
+            board(starting_row, starting_col, border_ch);
+            snakesLaddersList(starting_row + 3, starting_col + 115, player1, player2);
+            p1PosRow = starting_row + 47, p1PosCol = starting_col - 3, p2PosRow = starting_row + 47, p2PosCol = starting_col - 7;
         }
         if (p2PosCol == endColP2 && p2PosRow == 2)
         {
             system("CLS");
             gotoRowCol(15, 50);
             cout << player2 << " is the winner.";
-            cout << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl
-                 << endl;
-            break;
+            gotoRowCol(17, 50);
+            cout << "Press Any Key To Play Again.";
+
+            getch();
+            system("CLS");
+            board(starting_row, starting_col, border_ch);
+            snakesLaddersList(starting_row + 3, starting_col + 115, player1, player2);
+            p1PosRow = starting_row + 47, p1PosCol = starting_col - 3, p2PosRow = starting_row + 47, p2PosCol = starting_col - 7;
         }
     }
     return 0;
